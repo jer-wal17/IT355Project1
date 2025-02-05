@@ -2,6 +2,7 @@
 // For IT355 - Secure Software Development
 
 // Rule 06: MET06-J. Do not invoke overridable methods in clone()
+// Recommendation 06: MET52-J. Do not use the clone() method to copy untrusted method parameters
 
 package main.java.derek;
 
