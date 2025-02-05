@@ -2,6 +2,7 @@
 // For IT355 - Secure Software Development
 
 // Rule 13: FIO08-J. Distinguish between characters or bytes read from a stream and -1
+// Recommendation 13: FIO51-J. Identify files using multiple file attributes
 
 package main.java.derek;
 
