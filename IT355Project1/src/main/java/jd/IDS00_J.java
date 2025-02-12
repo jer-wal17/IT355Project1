@@ -1,5 +1,6 @@
 // JD Waldron
 // Rule 00: IDS00-J. Prevent SQL Injection
+// Recommendation 05: OBJ51-J. Minimize the accessibility of classes and their members
 
 package main.java.jd;
 
