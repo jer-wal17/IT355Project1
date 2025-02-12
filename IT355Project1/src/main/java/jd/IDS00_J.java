@@ -10,7 +10,6 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.security.spec.KeySpec;
 
 import javax.crypto.SecretKeyFactory;
 import javax.crypto.spec.PBEKeySpec;
@@ -19,15 +18,25 @@ public class IDS00_J
 {
     public static void main(String[] args)
     {
-
+        String pWord = "password";
+        try
+        {
+            doPrivilegedAction("jerwal17", pWord.toCharArray());
+        }
+        catch (SQLException e)
+        {
+            e.printStackTrace();
+            System.err.println("SQL Error in Main");
+        }
     }
 
-    public void doPrivilegedAction(String username, char[] password) throws SQLException
+    public static void doPrivilegedAction(String username, char[] password) throws SQLException
     {
         Connection connection = getConnection();
         if (connection == null)
         {
-            // Handle error
+            System.err.println("Connection is null");
+            System.exit(1);
         }
         try
         {
@@ -36,7 +45,7 @@ public class IDS00_J
             // Validate username length
             if (username.length() > 8)
             {
-                // Handle error
+                System.err.println("Username longer than 8 characters");
             }
 
             String sqlString = "select * from db_user where username=? and password=?";
@@ -50,6 +59,7 @@ public class IDS00_J
             }
 
             // Authenticated; proceed
+            System.out.println("Authenticated");
         }
         finally
         {
@@ -59,14 +69,19 @@ public class IDS00_J
             }
             catch (SQLException x)
             {
-                // Forward to handler
+                System.err.println("Connection did not close");
             }
         }
     }
 
-    public Connection getConnection()
+    /**
+     * Method that gets the connection to the SQL database
+     * 
+     * @return the connection if successful, null if not
+     */
+    public static Connection getConnection()
     {
-        String connectionString = "jdbc:mysql://localhost:3306/?user=root";
+        String connectionString = "jdbc:mysql://localhost:3306/it355_group_project";
         String username = "root";
         String password = "password";
 
@@ -74,14 +89,20 @@ public class IDS00_J
         {
             return DriverManager.getConnection(connectionString, username, password);
         }
-        catch (Exception e)
+        catch (SQLException e)
         {
+            e.printStackTrace();
             return null;
         }
     }
 
-    // TODO
-    public String hashPassword(char[] password)
+    /**
+     * Method that hashes and returns the given password
+     * 
+     * @param password
+     * @return the hashed password
+     */
+    public static String hashPassword(char[] password)
     {
         SecureRandom random = new SecureRandom();
         byte[] salt = new byte[16];
@@ -98,6 +119,19 @@ public class IDS00_J
             e.printStackTrace();
         }
 
-        byte[] hash = factory.generateSecret(spec).getEncoded();
+        byte[] hash = "".getBytes();
+
+        try
+        {
+            hash = factory.generateSecret(spec).getEncoded();
+        }
+        catch (Exception e)
+        {
+            return "";
+        }
+
+        System.out.println(hash.toString());
+
+        return hash.toString();
     }
 }
