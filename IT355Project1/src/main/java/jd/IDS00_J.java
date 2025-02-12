@@ -30,7 +30,14 @@ public class IDS00_J
         }
     }
 
-    public static void doPrivilegedAction(String username, char[] password) throws SQLException
+    /**
+     * Dummy method that represents doing an action that needs higher credentials
+     * 
+     * @param username
+     * @param password
+     * @throws SQLException
+     */
+    static void doPrivilegedAction(String username, char[] password) throws SQLException
     {
         Connection connection = getConnection();
         if (connection == null)
@@ -79,7 +86,7 @@ public class IDS00_J
      * 
      * @return the connection if successful, null if not
      */
-    public static Connection getConnection()
+    static Connection getConnection()
     {
         String connectionString = "jdbc:mysql://localhost:3306/it355_group_project";
         String username = "root";
@@ -102,7 +109,7 @@ public class IDS00_J
      * @param password
      * @return the hashed password
      */
-    public static String hashPassword(char[] password)
+    static String hashPassword(char[] password)
     {
         SecureRandom random = new SecureRandom();
         byte[] salt = new byte[16];
@@ -129,8 +136,6 @@ public class IDS00_J
         {
             return "";
         }
-
-        System.out.println(hash.toString());
 
         return hash.toString();
     }
