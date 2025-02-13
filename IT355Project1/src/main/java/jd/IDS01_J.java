@@ -10,6 +10,11 @@ import java.util.regex.Pattern;
 
 public class IDS01_J
 {
+    /**
+     * Main method
+     * 
+     * @param args
+     */
     public static void main(String[] args)
     {
         String s = "\uFE64" + "script" + "\uFE65";

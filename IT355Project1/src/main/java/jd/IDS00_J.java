@@ -1,6 +1,6 @@
 // JD Waldron
 // Rule 00: IDS00-J. Prevent SQL Injection
-// Recommendation 05: OBJ51-J. Minimize the accessibility of classes and their members
+// Rec. 05: OBJ51-J. Minimize the accessibility of classes and their members
 
 package main.java.jd;
 
@@ -17,6 +17,11 @@ import javax.crypto.spec.PBEKeySpec;
 
 public class IDS00_J
 {
+    /**
+     * Main method
+     * 
+     * @param args
+     */
     public static void main(String[] args)
     {
         String pWord = "password";
@@ -54,6 +59,7 @@ public class IDS00_J
             if (username.length() > 8)
             {
                 System.err.println("Username longer than 8 characters");
+                System.exit(1);
             }
 
             String sqlString = "select * from db_user where username=? and password=?";
