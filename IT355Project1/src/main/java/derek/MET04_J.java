@@ -7,8 +7,33 @@ package main.java.derek;
 
 public class MET04_J
 {
-    public static void main(String[] args) throws Exception
+    public static void main(String[] args)
     {
-        System.out.println("Hello, World!");
+        Sub sub = new Sub();
+        sub.isSkaDead();
+    }
+
+    private static class Super 
+    {
+        // Noncompliant implementation:
+        // protected void isSkaDead() 
+        // {
+        //     System.out.println("No!");
+        // }
+
+        // Compliant implementation: 
+        protected final void isSkaDead() 
+        {
+            System.out.println("No!");
+        }
+    }
+
+    private static class Sub extends Super 
+    {
+        // Test code: will cause an error if compliant with rule
+        // public void isSkaDead() 
+        // {
+        //     System.out.println("Yes!");
+        // }
     }
 }
