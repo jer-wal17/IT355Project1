@@ -34,6 +34,11 @@ public class IDS11_J
         return s;
     }
 
+    /**
+     * The main method
+     * 
+     * @param args
+     */
     public static void main(String[] args)
     {
         // "\uFDEF" is a non-character code point
