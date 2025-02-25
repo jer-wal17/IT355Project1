@@ -34,10 +34,35 @@ class SerializableClass implements Serializable {
     private void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException {
         in.defaultReadObject();
     }
+
+    // only used for the example to make the data output look right with strings
+    @Override
+    public String toString() {
+        return "Data: " + data;
+    }
 }
 
 public class SER01_J {
     public static void main(String[] args) {
-        // Serialization and deserialization logic here
+         // Create an object to serialize
+         SerializableClass obj = new SerializableClass("Hello, World!");
+
+         // Serialize the object to a file
+         String filename = "serialized_object.ser";
+         try (ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream(filename))) {
+             out.writeObject(obj);
+             System.out.println("Object serialized to " + filename);
+         } catch (IOException e) {
+             System.err.println("Error during serialization: " + e.getMessage());
+         }
+ 
+         // Deserialize the object from the file
+         try (ObjectInputStream in = new ObjectInputStream(new FileInputStream(filename))) {
+             SerializableClass deserializedObj = (SerializableClass) in.readObject();
+             System.out.println("Object deserialized from " + filename);
+             System.out.println(deserializedObj); // Print the deserialized object
+         } catch (IOException | ClassNotFoundException e) {
+             System.err.println("Error during deserialization: " + e.getMessage());
+         }
     }
 }

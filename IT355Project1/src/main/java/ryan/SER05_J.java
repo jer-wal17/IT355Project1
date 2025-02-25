@@ -15,15 +15,34 @@ class SerializableClass implements Serializable {
     public SerializableClass(String data) {
         this.data = data;
     }
+
+    @Override
+        public String toString() {
+            return "InnerClass Data: " + data;
+        }
 }
 
 public class SER05_J {
     public static void main(String[] args) {
-        try {
-            // Serialization logic here
+        // Create an instance of the inner class
+        SerializableClass innerObj = new SerializableClass("Hello, Inner World!");
+
+        // Serialize the inner class object to a file
+        String filename = "inner_class.ser";
+        try (ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream(filename))) {
+            out.writeObject(innerObj);
+            System.out.println("Inner class object serialized to " + filename);
         } catch (IOException e) {
-            // ERR53-J: Use meaningful exception messages
-            System.err.println("Serialization failed: " + e.getMessage());
+            System.err.println("Error during serialization: " + e.getMessage());
+        }
+
+        // Deserialize the inner class object from the file
+        try (ObjectInputStream in = new ObjectInputStream(new FileInputStream(filename))) {
+            SerializableClass deserializedInnerObj = (SerializableClass) in.readObject();
+            System.out.println("Inner class object deserialized from " + filename);
+            System.out.println(deserializedInnerObj); // Print the deserialized object
+        } catch (IOException | ClassNotFoundException e) {
+            System.err.println("Error during deserialization: " + e.getMessage());
         }
     }
 }

@@ -7,6 +7,7 @@
 package main.java.ryan;
 
 public class ERR08_J {
+    @SuppressWarnings("unused")
     public static void main(String[] args) {
         String str = null;
 

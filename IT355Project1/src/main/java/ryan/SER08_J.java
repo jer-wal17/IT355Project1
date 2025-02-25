@@ -24,16 +24,34 @@ class SerializableClass implements Serializable {
     private void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException {
         in.defaultReadObject();
     }
+
+    @Override
+    public String toString() {
+        return "Sensitive Data: " + sensitiveData;
+    }
 }
 
 public class SER08_J {
     public static void main(String[] args) {
-        // ERR54-J: Provide a mechanism to handle exceptional conditions
-        // non compliant code ERR54-J Violation: Has no mechanism to handle exceptional conditions (no try catch in main)
-        try {
-            // Serialization and deserialization logic here
+        // Create an object with sensitive data
+        SerializableClass obj = new SerializableClass("Confidential Info");
+
+        // Serialize the object to a file
+        String filename = "sensitive_object.ser";
+        try (ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream(filename))) {
+            out.writeObject(obj);
+            System.out.println("Object with sensitive data serialized to " + filename);
+        } catch (IOException e) {
+            System.err.println("Error during serialization: " + e.getMessage());
+        }
+
+        // Deserialize the object from the file
+        try (ObjectInputStream in = new ObjectInputStream(new FileInputStream(filename))) {
+            SerializableClass deserializedObj = (SerializableClass) in.readObject();
+            System.out.println("Object with sensitive data deserialized from " + filename);
+            System.out.println(deserializedObj); // Print the deserialized object
         } catch (IOException | ClassNotFoundException e) {
-            System.err.println("Error during serialization/deserialization: " + e.getMessage());
+            System.err.println("Error during deserialization: " + e.getMessage());
         }
     }
 }
