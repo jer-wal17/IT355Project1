@@ -2,7 +2,7 @@
 // For IT355 - Secure Software Development
 
 // Rule 06: MET06-J. Do not invoke overridable methods in clone()
-// TODO: Recommendation 06: MET52-J. Do not use the clone() method to copy untrusted method parameters
+// Recommendation 06: MET52-J. Do not use the clone() method to copy untrusted method parameters
 
 package main.java.derek;
 
@@ -11,9 +11,19 @@ public class MET06_J
     public static void main(String[] args)
     {
         Sub sub = new MET06_J().new Sub();
+        cloneAndPrint(sub);
+    }
+
+    public static void cloneAndPrint(Sub toClone) 
+    {
         try 
         {
-            Sub copy = (Sub)sub.clone();
+            // Recommendation - noncompliant implementation:
+            // Sub copy = (Sub)toClone.clone();
+
+            // Recommendation - compliant implementation:
+            Sub copy = new MET06_J().new Sub();
+            copy.setData(toClone.deepCopy());
             System.out.println(copy.toString());
         }
         catch (Exception e)
@@ -48,6 +58,11 @@ public class MET06_J
             }
             return result;
         }
+
+        public void setData(Band[] data)
+        {
+            dataArray = data;
+        }
         // Noncompliant implementation:
         // private Band[] deepCopy() throws CloneNotSupportedException 
         // {
@@ -74,7 +89,7 @@ public class MET06_J
         // }
 
         // Compliant implementation: 
-        private final Band[] deepCopy() throws CloneNotSupportedException 
+        public final Band[] deepCopy() throws CloneNotSupportedException 
         {
             if (dataArray == null)
             {
