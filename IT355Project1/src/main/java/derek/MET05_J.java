@@ -10,14 +10,16 @@ public class MET05_J
 {
     public static void main(String[] args)
     {
-        Sub sub = new Sub();
+        Sub sub = Sub.createSub();
     }
 
     private static class Super 
     {
-        public Super() 
+        public static Super createSuper() 
         {
-            isSkaDead();
+            Super result = new Super();
+            result.isSkaDead();
+            return result;
         }
 
         // Noncompliant implementation:
@@ -36,6 +38,12 @@ public class MET05_J
     private static class Sub extends Super 
     {
         private String printStatement = "Yes!";
+        public static Sub createSub()
+        {
+            super();
+            Sub result = Super.createSuper();
+            return result;
+        }
         // Test code: will cause an error if compliant with rule
         // public void isSkaDead() 
         // {

@@ -2,6 +2,7 @@
 // For IT355 - Secure Software Development
 
 // Rule 13: FIO14-J. Perform proper cleanup at program termination
+// Recommendation 13: FIO50-J. Do not make assumptions about file creation
 
 package main.java.derek;
 
@@ -14,9 +15,21 @@ public class FIO14_J
 {
     public static void main(String[] args) throws FileNotFoundException, IOException
     {
-        File outFile = new File("output.txt");
-        FileOutputStream out = new FileOutputStream(outFile);
+        String filename = "output";
+        String fileType = ".txt";
         String content = "Hello World!";
+
+        if (!new File(filename + fileType).createNewFile()) 
+        {
+            // File cannot be created... try with a new name
+            int fileNameAddition = 1;
+            while (!new File(filename + fileNameAddition + fileType).createNewFile())
+            {
+                fileNameAddition++;
+            }
+            filename += fileNameAddition + fileType;
+        }
+        FileOutputStream out = new FileOutputStream(filename);
 
         // Noncompliant implementation:
         // out.write(content.getBytes());

@@ -2,7 +2,6 @@
 // For IT355 - Secure Software Development
 
 // Rule 13: FIO05-J. Do not expose buffers or their backing arrays methods to untrusted code
-// TODO: Recommendation 13: FIO50-J. Do not make assumptions about file creation
 
 package main.java.derek;
 
