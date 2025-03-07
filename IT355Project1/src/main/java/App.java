@@ -30,8 +30,15 @@ public class App {
             System.out.println("8. Export Account Details");
             System.out.println("9. Quit");
             System.out.print("Enter an option: ");
-            int choice = in.nextInt();
-            in.nextLine();
+            int choice = -1;
+            if (in.hasNextInt()) {
+                choice = in.nextInt();
+            }
+
+            // Allow for quitting by entering "Q" or "q"
+            if (in.nextLine().equalsIgnoreCase("q")) {
+                choice = 9;
+            }
 
             switch (choice) {
                 case 1:
@@ -82,7 +89,8 @@ public class App {
                             System.out.println("Invalid deposit amount.");
                         } else {
                             depositAccount.deposit(depositAmount);
-                            bank.updateAccount(depositAccount.getOwnerId(), depositAccount.getUniqueId(), depositAccount);
+                            bank.updateAccount(depositAccount.getOwnerId(), depositAccount.getUniqueId(),
+                                    depositAccount);
                             System.out.println("\nBalance after deposit: " + depositAccount.balanceAsString());
                         }
                     } else {
@@ -102,7 +110,8 @@ public class App {
                             System.out.println("Invalid withdrawal amount.");
                         } else {
                             withdrawAccount.withdraw(withdrawAmount);
-                            bank.updateAccount(withdrawAccount.getOwnerId(), withdrawAccount.getUniqueId(), withdrawAccount);
+                            bank.updateAccount(withdrawAccount.getOwnerId(), withdrawAccount.getUniqueId(),
+                                    withdrawAccount);
                         }
                     } else {
                         System.out.println("Account not found.");
