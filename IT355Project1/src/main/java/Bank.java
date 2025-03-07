@@ -92,6 +92,24 @@ public class Bank {
         }
         return null;
     }
+    /**
+     * Method that updates the AccountList with a given account, userid, and account id of a valid account
+     * @param userId user id of the owner of the account
+     * @param accountId account id of the account your looking to update
+     * @param updatedAccount given BankAccount object to update the accountlist with
+     */
+    public void updateAccount(long userId, long accountId, BankAccount updatedAccount) {
+        for (int i = 0; i < accountList.length; i++) {
+            if (accountList[i] != null) {
+                /* check if owner and account id are the same */
+                if (accountList[i].getOwnerId() == userId && accountList[i].getUniqueId() == accountId) {
+                    if (accountList[i].getClass() == updatedAccount.getClass()){
+                        accountList[i] = updatedAccount;
+                    }
+                }
+            }
+        }
+    }
 
     /** getters and setters that are needed */
     public long getUniqueId() {

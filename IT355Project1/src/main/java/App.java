@@ -82,6 +82,7 @@ public class App {
                             System.out.println("Invalid deposit amount.");
                         } else {
                             depositAccount.deposit(depositAmount);
+                            bank.updateAccount(depositAccount.getOwnerId(), depositAccount.getUniqueId(), depositAccount);
                             System.out.println("\nBalance after deposit: " + depositAccount.balanceAsString());
                         }
                     } else {
@@ -101,6 +102,7 @@ public class App {
                             System.out.println("Invalid withdrawal amount.");
                         } else {
                             withdrawAccount.withdraw(withdrawAmount);
+                            bank.updateAccount(withdrawAccount.getOwnerId(), withdrawAccount.getUniqueId(), withdrawAccount);
                         }
                     } else {
                         System.out.println("Account not found.");
