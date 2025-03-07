@@ -2,7 +2,7 @@
 // For IT355 - Secure Software Development
 
 // Rule 06: MET05-J. Ensure that constructors do not call overridable methods
-// TODO: Recommendation 06: MET50-J. Avoid ambiguous or confusing uses of overloading
+// Recommendation 06: MET50-J. Avoid ambiguous or confusing uses of overloading
 
 package main.java.derek;
 
@@ -15,11 +15,9 @@ public class MET05_J
 
     private static class Super 
     {
-        public static Super createSuper() 
+        public Super()
         {
-            Super result = new Super();
-            result.isSkaDead();
-            return result;
+            isSkaDead();
         }
 
         // Noncompliant implementation:
@@ -40,12 +38,11 @@ public class MET05_J
         private String printStatement = "Yes!";
         public static Sub createSub()
         {
-            super();
-            Sub result = Super.createSuper();
+            Sub result = new Sub();
             return result;
         }
         // Test code: will cause an error if compliant with rule
-        // public void isSkaDead() 
+        // public void isSkaDead()
         // {
         //     System.out.println(printStatement);
         // }

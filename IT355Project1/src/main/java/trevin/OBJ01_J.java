@@ -1,7 +1,7 @@
 package main.java.trevin;
 //Author: Trevin van Hook
 //Date: 2/16/2025
-//Description: Compliant code for rule OBJ01_J and recommendations OBJ55-J and OBJ54-J
+//Description: Compliant code for rule OBJ01_J and recommendations OBJ55-J
 
 import java.util.Arrays;
 
