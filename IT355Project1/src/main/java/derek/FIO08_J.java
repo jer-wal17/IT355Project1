@@ -63,6 +63,7 @@ public class FIO08_J
                 FileTime modified2 = attr2.lastModifiedTime();
 
                 FileOutputStream out = new FileOutputStream(inFile);
+                out.write(fileContents.getBytes());
 
                 out.close();
 
