@@ -1,7 +1,7 @@
 package main.java.trevin;
 //Author: Trevin van Hook
 //Date: 2/16/2025
-//Description: Compliant code for rule OBJ05_J
+//Description: Compliant code for rule OBJ05_J and recommendation OBJ54-J
 
 /**
  * class for node to perform this rule properly. 
