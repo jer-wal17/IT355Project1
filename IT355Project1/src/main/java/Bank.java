@@ -22,10 +22,7 @@ public class Bank implements Serializable{
     public Bank(long uniqueId, String name) {
         this.uniqueId = uniqueId;
         this.name = name;
-        this.accountList = new BankAccount[10];/*
-                                                * just have this at 10 for now, we can change how this works at any
-                                                * point lol
-                                                */
+        this.accountList = new BankAccount[100];
     }
 
     /**

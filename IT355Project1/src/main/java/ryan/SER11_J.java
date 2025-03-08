@@ -35,7 +35,9 @@ class SerializableClass implements Serializable {
      */
     private void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException {
         in.defaultReadObject();
-        // Perform additional validation or decryption here
+        if (this.sensitiveData == null || this.sensitiveData.trim().isEmpty()) {
+            throw new InvalidObjectException("Invalid sensitive data detected during deserialization: Data cannot be null or empty.");
+        }
     }
 
     /**
