@@ -1,5 +1,6 @@
 package main.java;
 
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -134,8 +135,17 @@ public class App {
                     break;
 
                     case 7:
-                    System.out.print("Enter file name to import account details (e.g., accounts.ser): ");
-                    String importFileName = in.nextLine();
+                    System.out.print("Enter file name to import account details with a .ser extension (e.g., accounts.ser): ");
+                    String importFileName = in.nextLine().trim();
+                    if (!importFileName.endsWith(".ser")) {
+                        System.err.println("Error: The file must have a .ser extension.");
+                        break;
+                    }
+                    File importFile = new File(importFileName);
+                    if (!importFile.exists() || !importFile.isFile()) {
+                        System.err.println("Error: The file does not exist or is not a valid file.");
+                        break;
+                    }
                     try (ObjectInputStream inFile = new ObjectInputStream(new FileInputStream(importFileName))) {
                         BankAccount[] importedAccounts = (BankAccount[]) inFile.readObject();
                         for (BankAccount account : importedAccounts) {
@@ -155,8 +165,12 @@ public class App {
                     break;
 
                 case 8:
-                    System.out.print("Enter file name to export account details (e.g., accounts.ser): ");
-                    String exportFileName = in.nextLine();
+                    System.out.print("Enter file name to export account details with a .ser extension (e.g., accounts.ser): ");
+                    String exportFileName = in.nextLine().trim();
+                    if (!exportFileName.endsWith(".ser")) {
+                        System.err.println("Error: The file must have a .ser extension.");
+                        break;
+                    }
                     try (ObjectOutputStream outFile = new ObjectOutputStream(new FileOutputStream(exportFileName))) {
                         outFile.writeObject(bank.getAccountList());
                         System.out.println("Account details exported successfully to " + exportFileName);
