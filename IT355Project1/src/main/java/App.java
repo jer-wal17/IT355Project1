@@ -162,6 +162,14 @@ public class App {
         return s;
     }
 
+    /**
+    * Retrieves a bank account based on the provided user ID and account ID.
+    * This method ensures that the bank object is not null and handles cases where the account is not found.
+    * @param in   The Scanner object used to read user input.
+    * @param bank The Bank object containing the account list.
+    * @return The BankAccount object if found, or null if the account is not found.
+    * @throws IllegalArgumentException If the bank object is null.
+    */
     static BankAccount getAccount(Scanner in, Bank bank) {
         System.out.print("Enter user ID of account: ");
         int userID = in.nextInt();
@@ -169,8 +177,15 @@ public class App {
         System.out.print("Enter account ID: ");
         int accID = in.nextInt();
         in.nextLine();
+        if (bank == null) {
+            throw new IllegalArgumentException("Bank object cannot be null");
+        }
         BankAccount bankAccount = bank.getAccount(userID, accID);
-
+        if (bankAccount == null) {
+            System.out.println("Account not found.");
+            return null;
+        }
+    
         return bankAccount;
     }
 }

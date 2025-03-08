@@ -1,12 +1,19 @@
 package main.java;
 
+import java.io.IOException;
+import java.io.InvalidObjectException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.io.Serializable;
+import java.io.SerializablePermission;
 import java.text.DecimalFormat;
 
-class BankAccount {
+class BankAccount implements Serializable {
+    private static final long serialVersionUID = 1L;
     private long uniqueId;
     private long bankId;
-    private long ownerId;
-    private double balance;
+    private transient long ownerId;
+    private transient double balance;
 
     /**
      * Constructor class
@@ -93,5 +100,48 @@ class BankAccount {
         this.balance -= amount;
 
         return this.balance;
+    }
+
+    /**
+     * Custom serialization method.
+     * This method ensures that sensitive data is not serialized in plaintext
+     * and checks for the "serialize" permission using the SecurityManager.
+     *
+     * @param out The ObjectOutputStream to write the object to.
+     * @throws IOException If an I/O error occurs during serialization.
+     */
+    @SuppressWarnings("removal")
+    private void writeObject(ObjectOutputStream out) throws IOException {
+        // SER04-J: Check SecurityManager permission
+        SecurityManager sm = System.getSecurityManager();
+        if (sm != null) {
+            sm.checkPermission(new SerializablePermission("serialize"));
+        }
+        out.defaultWriteObject();
+    }
+
+    /**
+     * Custom deserialization method.
+     * This method ensures that sensitive data is securely handled during deserialization
+     * and checks for the "deserialize" permission using the SecurityManager.
+     *
+     * @param in The ObjectInputStream to read the object from.
+     * @throws IOException            If an I/O error occurs during deserialization.
+     * @throws ClassNotFoundException If the class of the serialized object cannot be found.
+     * @throws InvalidObjectException  If invalid data is detected during deserialization.
+     */
+    @SuppressWarnings("removal")
+    private void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException {
+        // SER04-J: Check SecurityManager permission
+        SecurityManager sm = System.getSecurityManager();
+        if (sm != null) {
+            sm.checkPermission(new SerializablePermission("deserialize"));
+        }
+        in.defaultReadObject();
+
+        // SER11-J: Perform additional validation or decryption here
+        if (this.balance < 0) {
+            throw new InvalidObjectException("Invalid balance detected during deserialization");
+        }
     }
 }

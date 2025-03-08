@@ -1,6 +1,13 @@
 package main.java;
 
-public class Bank {
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.io.Serializable;
+import java.io.SerializablePermission;
+
+public class Bank implements Serializable{
+    private static final long serialVersionUID = 1L;
     private long uniqueId;
     private String name;
     private BankAccount[] accountList;
@@ -144,5 +151,40 @@ public class Bank {
         for (int i = 0; i < openedAccounts; i++) {
             System.out.print(accountList[i]);
         }
+    }
+
+    /**
+     * Custom serialization method.
+     * This method checks for the "serialize" permission using the SecurityManager.
+     *
+     * @param out The ObjectOutputStream to write the object to.
+     * @throws IOException If an I/O error occurs during serialization.
+     */
+    @SuppressWarnings("removal")
+    private void writeObject(ObjectOutputStream out) throws IOException {
+        // SER04-J: Check SecurityManager permission
+        SecurityManager sm = System.getSecurityManager();
+        if (sm != null) {
+            sm.checkPermission(new SerializablePermission("serialize"));
+        }
+        out.defaultWriteObject();
+    }
+
+    /**
+     * Custom deserialization method.
+     * This method checks for the "deserialize" permission using the SecurityManager.
+     *
+     * @param in The ObjectInputStream to read the object from.
+     * @throws IOException            If an I/O error occurs during deserialization.
+     * @throws ClassNotFoundException If the class of the serialized object cannot be found.
+     */
+    @SuppressWarnings("removal")
+    private void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException {
+        // SER04-J: Check SecurityManager permission
+        SecurityManager sm = System.getSecurityManager();
+        if (sm != null) {
+            sm.checkPermission(new SerializablePermission("deserialize"));
+        }
+        in.defaultReadObject();
     }
 }
