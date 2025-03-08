@@ -52,7 +52,7 @@ public class Bank implements Serializable{
         BankAccount openedAccount = null;
         for (int i = 0; i < accountList.length; i++) {
             if (accountList[i] == null) {
-                openedAccount = new BankAccount(openedAccounts++, uniqueId, userId, balance);
+                openedAccount = new CheckingBankAccount(openedAccounts++, uniqueId, userId, balance);
                 accountList[i] = openedAccount;
                 break;
             }
@@ -91,7 +91,7 @@ public class Bank implements Serializable{
             if (accountList[i] != null) {
                 /* check if owner and account id are the same */
                 if (accountList[i].getOwnerId() == userId && accountList[i].getUniqueId() == accountId) {
-                    BankAccount returnBankAccount = new BankAccount(accountList[i].getUniqueId(),
+                    BankAccount returnBankAccount = new CheckingBankAccount(accountList[i].getUniqueId(),
                             accountList[i].getBankId(), accountList[i].getOwnerId(), accountList[i].getBalance());
                     return returnBankAccount;
                 }
@@ -119,15 +119,15 @@ public class Bank implements Serializable{
     }
 
     /** getters and setters that are needed */
-    public long getUniqueId() {
+    public final long getUniqueId() {
         return uniqueId;
     }
 
-    public String getName() {
+    public final String getName() {
         return name;
     }
 
-    public long getOpenedAccounts() {
+    public final long getOpenedAccounts() {
         return openedAccounts;
     }
 
@@ -136,11 +136,11 @@ public class Bank implements Serializable{
      * 
      * @return a deep copy of the accountList
      */
-    public BankAccount[] getAccountList() {
+    public final BankAccount[] getAccountList() {
         BankAccount[] copiedList = new BankAccount[accountList.length];
         for (int i = 0; i < accountList.length; i++) {
             if (accountList[i] != null) {
-                copiedList[i] = new BankAccount(accountList[i].getUniqueId(), accountList[i].getBankId(),
+                copiedList[i] = new CheckingBankAccount(accountList[i].getUniqueId(), accountList[i].getBankId(), // MET52-J.
                         accountList[i].getOwnerId(), accountList[i].getBalance());
             }
         }

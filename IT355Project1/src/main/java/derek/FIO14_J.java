@@ -51,6 +51,6 @@ public class FIO14_J
                 throw e;
             }
         }
-        Runtime.getRuntime().exit(1);
+        Runtime.getRuntime().exit(0);
     }
 }

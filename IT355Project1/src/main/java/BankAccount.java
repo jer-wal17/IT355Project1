@@ -8,12 +8,12 @@ import java.io.Serializable;
 import java.io.SerializablePermission;
 import java.text.DecimalFormat;
 
-class BankAccount implements Serializable {
+abstract class BankAccount implements Serializable {
     private static final long serialVersionUID = 1L;
     private long uniqueId;
     private long bankId;
     private transient long ownerId;
-    private transient double balance;
+    protected transient double balance;
 
     /**
      * Constructor class
@@ -58,7 +58,7 @@ class BankAccount implements Serializable {
     }
 
     /* Getters and setters */
-    public long getUniqueId() {
+    public final long getUniqueId() {
         return uniqueId;
     }
 
@@ -66,7 +66,7 @@ class BankAccount implements Serializable {
         this.uniqueId = uniqueId;
     }
 
-    public long getBankId() {
+    public final long getBankId() {
         return bankId;
     }
 
@@ -74,7 +74,7 @@ class BankAccount implements Serializable {
         this.bankId = bankId;
     }
 
-    public long getOwnerId() {
+    public final long getOwnerId() {
         return ownerId;
     }
 
@@ -82,7 +82,7 @@ class BankAccount implements Serializable {
         this.ownerId = ownerId;
     }
 
-    public double getBalance() {
+    public final double getBalance() {
         return balance;
     }
 
@@ -90,17 +90,9 @@ class BankAccount implements Serializable {
         this.balance = balance;
     }
 
-    public double deposit(double amount) {
-        this.balance += amount;
+    public abstract double deposit(double amount);
 
-        return this.balance;
-    }
-
-    public double withdraw(double amount) {
-        this.balance -= amount;
-
-        return this.balance;
-    }
+    public abstract double withdraw(double amount);
 
     /**
      * Custom serialization method.
@@ -111,7 +103,7 @@ class BankAccount implements Serializable {
      * @throws IOException If an I/O error occurs during serialization.
      */
     @SuppressWarnings("removal")
-    private void writeObject(ObjectOutputStream out) throws IOException {
+    protected final void writeObject(ObjectOutputStream out) throws IOException {
         SecurityManager sm = System.getSecurityManager();
         if (sm != null) {
             sm.checkPermission(new SerializablePermission("serialize"));
@@ -132,7 +124,7 @@ class BankAccount implements Serializable {
      * @throws InvalidObjectException  If invalid data is detected during deserialization.
      */
     @SuppressWarnings("removal")
-    private void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException {
+    protected final void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException {
         SecurityManager sm = System.getSecurityManager();
         if (sm != null) {
             sm.checkPermission(new SerializablePermission("deserialize"));

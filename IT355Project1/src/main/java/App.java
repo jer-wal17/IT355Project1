@@ -171,6 +171,12 @@ public class App {
                         System.err.println("Error: The file must have a .ser extension.");
                         break;
                     }
+                    if (!new File(exportFileName).createNewFile())
+                    {
+                        // File cannot be created because it already exists.
+                        System.err.println("Error: The filename provided already exists.");
+                        break;
+                    }
                     try (ObjectOutputStream outFile = new ObjectOutputStream(new FileOutputStream(exportFileName))) {
                         outFile.writeObject(bank.getAccountList());
                         System.out.println("Account details exported successfully to " + exportFileName);
@@ -189,7 +195,15 @@ public class App {
             }
         }
 
-        in.close();
+        try 
+        {
+            in.close();
+        }
+        catch (Exception e) 
+        {  
+            throw e;
+        }
+        Runtime.getRuntime().exit(0);
     }
 
     /**
