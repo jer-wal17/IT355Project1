@@ -162,7 +162,6 @@ public class Bank implements Serializable{
      */
     @SuppressWarnings("removal")
     private void writeObject(ObjectOutputStream out) throws IOException {
-        // SER04-J: Check SecurityManager permission
         SecurityManager sm = System.getSecurityManager();
         if (sm != null) {
             sm.checkPermission(new SerializablePermission("serialize"));
@@ -180,7 +179,6 @@ public class Bank implements Serializable{
      */
     @SuppressWarnings("removal")
     private void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException {
-        // SER04-J: Check SecurityManager permission
         SecurityManager sm = System.getSecurityManager();
         if (sm != null) {
             sm.checkPermission(new SerializablePermission("deserialize"));

@@ -1,5 +1,10 @@
 package main.java;
 
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.text.Normalizer;
 import java.text.Normalizer.Form;
 import java.util.Scanner;
@@ -128,10 +133,36 @@ public class App {
                     bank.closeAccount(userID, accID);
                     break;
 
-                case 7:
+                    case 7:
+                    System.out.print("Enter file name to import account details (e.g., accounts.ser): ");
+                    String importFileName = in.nextLine();
+                    try (ObjectInputStream inFile = new ObjectInputStream(new FileInputStream(importFileName))) {
+                        BankAccount[] importedAccounts = (BankAccount[]) inFile.readObject();
+                        for (BankAccount account : importedAccounts) {
+                            if (account != null) {
+                                BankAccount existingAccount = bank.getAccount((int) account.getOwnerId(), (int) account.getUniqueId());
+                                if (existingAccount == null) {
+                                    bank.openAccount((int) account.getOwnerId(), account.getBalance());
+                                } else {
+                                    bank.updateAccount(account.getOwnerId(), account.getUniqueId(), account);
+                                }
+                            }
+                        }
+                        System.out.println("Account details imported successfully from " + importFileName);
+                    } catch (IOException | ClassNotFoundException e) {
+                        System.err.println("Error during import: " + e.getMessage());
+                    }
                     break;
 
                 case 8:
+                    System.out.print("Enter file name to export account details (e.g., accounts.ser): ");
+                    String exportFileName = in.nextLine();
+                    try (ObjectOutputStream outFile = new ObjectOutputStream(new FileOutputStream(exportFileName))) {
+                        outFile.writeObject(bank.getAccountList());
+                        System.out.println("Account details exported successfully to " + exportFileName);
+                    } catch (IOException e) {
+                        System.err.println("Error during export: " + e.getMessage());
+                    }
                     break;
 
                 case 9:

@@ -112,12 +112,13 @@ class BankAccount implements Serializable {
      */
     @SuppressWarnings("removal")
     private void writeObject(ObjectOutputStream out) throws IOException {
-        // SER04-J: Check SecurityManager permission
         SecurityManager sm = System.getSecurityManager();
         if (sm != null) {
             sm.checkPermission(new SerializablePermission("serialize"));
         }
         out.defaultWriteObject();
+        out.writeLong(ownerId);
+        out.writeDouble(balance);
     }
 
     /**
@@ -132,14 +133,13 @@ class BankAccount implements Serializable {
      */
     @SuppressWarnings("removal")
     private void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException {
-        // SER04-J: Check SecurityManager permission
         SecurityManager sm = System.getSecurityManager();
         if (sm != null) {
             sm.checkPermission(new SerializablePermission("deserialize"));
         }
         in.defaultReadObject();
-
-        // SER11-J: Perform additional validation or decryption here
+        ownerId = in.readLong();
+        balance = in.readDouble(); 
         if (this.balance < 0) {
             throw new InvalidObjectException("Invalid balance detected during deserialization");
         }
