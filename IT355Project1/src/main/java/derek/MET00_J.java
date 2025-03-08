@@ -11,6 +11,12 @@ public class MET00_J
     {
         System.out.println(multiple(Integer.MAX_VALUE, 2));
     }
+    /** Multiply two integers
+     * 
+     * @param first The multiplicand
+     * @param second The multiplier
+     * @return The product of the two parameters
+     */
     public static int multiple(int first, int second)
     {
         long result = (long) first * second;
@@ -20,8 +26,9 @@ public class MET00_J
         // Compliant implementation:
         if (result > Integer.MAX_VALUE || result < Integer.MIN_VALUE)
         {
+            // We cannot possibly return the correct product as an integer
             System.out.println("MET00_J.multiple(): result is outside of the range of possible Integer values!");
-            return Math.clamp(result, Integer.MIN_VALUE, Integer.MAX_VALUE);
+            return Math.clamp(result, Integer.MIN_VALUE, Integer.MAX_VALUE); // return as close to a correct answer as we can manage
         }
         else
         {

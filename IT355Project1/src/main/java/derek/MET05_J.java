@@ -26,8 +26,11 @@ public class MET05_J
         //     System.out.println("No!");
         // }
 
-        // Compliant implementation: 
-        public final void isSkaDead() 
+        // Compliant implementation:
+        /** Prints to the console whether Ska is dead
+         *  
+         */ 
+        public final void isSkaDead() // final prevents overriding
         {
             System.out.println("No!");
         }
@@ -36,6 +39,10 @@ public class MET05_J
     private static class Sub extends Super 
     {
         private String printStatement = "Yes!";
+        /** Creates a Sub object
+         * 
+         * @return a new Sub object
+         */
         public static Sub createSub()
         {
             Sub result = new Sub();

@@ -22,7 +22,10 @@ public class MET04_J
         // }
 
         // Compliant implementation: 
-        protected final void isSkaDead() 
+        /** Prints to the console whether Ska is dead
+         *  
+         */ 
+        protected final void isSkaDead() // final prevents overriding, which prevents the scope from being increased
         {
             System.out.println("No!");
         }

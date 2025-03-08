@@ -14,6 +14,10 @@ public class MET06_J
         cloneAndPrint(sub);
     }
 
+    /** Creates a copy of the input object and prints it to the console
+     * 
+     * @param toClone Object to clone
+     */
     public static void cloneAndPrint(Sub toClone) 
     {
         try 
@@ -41,6 +45,11 @@ public class MET06_J
             populateData();
         }
 
+        /** Clone this object
+         * 
+         * @return A clone of this object
+         * @throws CloneNotSupportedException If the object cannot be cloned
+         */
         public Object clone() throws CloneNotSupportedException 
         {
             final Super clone = (Super) super.clone();
@@ -49,6 +58,9 @@ public class MET06_J
             return clone;
         }
 
+        /**
+         * @return A string representation of this object
+         */
         public String toString() 
         {
             String result = "";
@@ -59,6 +71,10 @@ public class MET06_J
             return result;
         }
 
+        /** Set the Band array data for this object
+         * 
+         * @param data
+         */
         public void setData(Band[] data)
         {
             dataArray = data;
@@ -89,7 +105,12 @@ public class MET06_J
         // }
 
         // Compliant implementation: 
-        public final Band[] deepCopy() throws CloneNotSupportedException 
+        /** Make a deep copy of this object's data array
+         * 
+         * @return A deep copy of the Band data array of this object
+         * @throws CloneNotSupportedException
+         */
+        public final Band[] deepCopy() throws CloneNotSupportedException // final prevents overriding
         {
             if (dataArray == null)
             {
@@ -103,6 +124,9 @@ public class MET06_J
             return dataArrayCopy;
         }
 
+        /** Generate data for the band data array
+         * 
+         */
         protected final void populateData() 
         {
             dataArray = new Band[5];
@@ -121,6 +145,11 @@ public class MET06_J
             super();
         }
         
+        /** Clone this object
+         * 
+         * @return A clone of this object
+         * @throws CloneNotSupportedException If the object cannot be cloned
+         */
         public Object clone() throws CloneNotSupportedException {
             final Sub clone = (Sub) super.clone();
             clone.populateData();
@@ -144,11 +173,20 @@ public class MET06_J
             name = bandName;
         }
 
+        /** Set the name for this band
+         * 
+         * @param bandName
+         */
         public void setName(String bandName)
         {
             name = bandName;
         }
 
+        /** Clone this Band object
+         * 
+         * @return A clone of this object
+         * @throws CloneNotSupportedException
+         */
         public Object clone() throws CloneNotSupportedException 
         {
             final Band clone = new Band("");

@@ -20,6 +20,8 @@ public class FIO05_J
         char[] dataArrayCopy = bufferCopy.array();
         System.out.println("Buffer copy contents: " + wrapper.printCharArray(dataArrayCopy));
         System.out.println("Original data contents: " + wrapper.toString());
+        // Was the original data modified?
+        // If the original data is unchanged, we complied with the rule!
     }
     
     private static class Wrapper  {
@@ -32,6 +34,10 @@ public class FIO05_J
                 dataArray[i] = (char)(97 + i);
             }
         }
+        /** Get a Buffer containing a copy of this object's data array
+         * 
+         * @return A CharBuffer using a copy of the data array as its backing
+         */
         public CharBuffer getBufferCopy() 
         {
             // Noncompliant implementation:
@@ -42,10 +48,19 @@ public class FIO05_J
             originalBuffer.put(dataArray);
             return originalBuffer;
         }
+        /**
+         * 
+         * @return a String representation of this object
+         */
         public String toString()
         {
             return printCharArray(dataArray);
         }
+        /** Convert a char array into a String object
+         * 
+         * @param array Data to process
+         * @return A String representation of the input char array
+         */
         public String printCharArray(char[] array) 
         {
             String result = "";

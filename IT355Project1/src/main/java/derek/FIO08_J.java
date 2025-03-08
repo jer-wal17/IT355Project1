@@ -34,6 +34,13 @@ public class FIO08_J
             return;
         }
         
+        /** Opens a file, reads its contents, and re-writes those contents to the file, leaving it unchanged.
+         * 
+         * @param inFile file name
+         * @return String representation of the file contents
+         * @throws FileNotFoundException If the input file name cannot be found
+         * @throws IOException If the reading or writing operations fail
+         */
         public String outputFile(File inFile) throws FileNotFoundException, IOException
         {
             String fileContents = "";
@@ -53,7 +60,7 @@ public class FIO08_J
 
                 // Compliant implementation:
                 int inbuff;
-                while ((inbuff = in.read()) != -1) {
+                while ((inbuff = in.read()) != -1) { // This is for certain the end of the file!
                     fileContents += (char)inbuff;
                 }
                 in.close();
