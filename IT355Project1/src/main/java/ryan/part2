@@ -1,0 +1,27 @@
+class SerializableClass implements Serializable {
+    private static final long serialVersionUID = 1L;
+    private transient String sensitiveData; // Mark sensitive data as transient
+    // private String sensitiveData; // Non-compliant code: Sensitive data is not encrypted
+
+    public SerializableClass(String sensitiveData) {
+        this.sensitiveData = sensitiveData;
+    }
+
+    private void writeObject(ObjectOutputStream out) throws IOException {
+        out.defaultWriteObject();
+    }
+
+    private void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException {
+        in.defaultReadObject();
+    }
+
+    /**
+     * Returns a string representation of the object.
+     *
+     * @return A string containing the object's sensitive data.
+     */
+    @Override
+    public String toString() {
+        return "Sensitive Data: " + sensitiveData;
+    }
+}
