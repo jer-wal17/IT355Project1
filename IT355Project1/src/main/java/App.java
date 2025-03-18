@@ -118,6 +118,7 @@ public class App {
                             withdrawAccount.withdraw(withdrawAmount);
                             bank.updateAccount(withdrawAccount.getOwnerId(), withdrawAccount.getUniqueId(),
                                     withdrawAccount);
+                            System.out.println("\nBalance after withdrawal: " + withdrawAccount.balanceAsString());
                         }
                     } else {
                         System.out.println("Account not found.");
@@ -132,10 +133,12 @@ public class App {
                     int accID = in.nextInt();
                     in.nextLine();
                     bank.closeAccount(userID, accID);
+                    System.out.println("Account closed.");
                     break;
 
-                    case 7:
-                    System.out.print("Enter file name to import account details with a .ser extension (e.g., accounts.ser): ");
+                case 7:
+                    System.out.print(
+                            "Enter file name to import account details with a .ser extension (e.g., accounts.ser): ");
                     String importFileName = in.nextLine().trim();
                     if (!importFileName.endsWith(".ser")) {
                         System.err.println("Error: The file must have a .ser extension.");
@@ -150,7 +153,8 @@ public class App {
                         BankAccount[] importedAccounts = (BankAccount[]) inFile.readObject();
                         for (BankAccount account : importedAccounts) {
                             if (account != null) {
-                                BankAccount existingAccount = bank.getAccount((int) account.getOwnerId(), (int) account.getUniqueId());
+                                BankAccount existingAccount = bank.getAccount((int) account.getOwnerId(),
+                                        (int) account.getUniqueId());
                                 if (existingAccount == null) {
                                     bank.openAccount((int) account.getOwnerId(), account.getBalance());
                                 } else {
@@ -165,14 +169,14 @@ public class App {
                     break;
 
                 case 8:
-                    System.out.print("Enter file name to export account details with a .ser extension (e.g., accounts.ser): ");
+                    System.out.print(
+                            "Enter file name to export account details with a .ser extension (e.g., accounts.ser): ");
                     String exportFileName = in.nextLine().trim();
                     if (!exportFileName.endsWith(".ser")) {
                         System.err.println("Error: The file must have a .ser extension.");
                         break;
                     }
-                    if (!new File(exportFileName).createNewFile())
-                    {
+                    if (!new File(exportFileName).createNewFile()) {
                         // File cannot be created because it already exists.
                         System.err.println("Error: The filename provided already exists.");
                         break;
@@ -195,12 +199,9 @@ public class App {
             }
         }
 
-        try 
-        {
+        try {
             in.close();
-        }
-        catch (Exception e) 
-        {  
+        } catch (Exception e) {
             throw e;
         }
         Runtime.getRuntime().exit(0);
@@ -222,13 +223,15 @@ public class App {
     }
 
     /**
-    * Retrieves a bank account based on the provided user ID and account ID.
-    * This method ensures that the bank object is not null and handles cases where the account is not found.
-    * @param in   The Scanner object used to read user input.
-    * @param bank The Bank object containing the account list.
-    * @return The BankAccount object if found, or null if the account is not found.
-    * @throws IllegalArgumentException If the bank object is null.
-    */
+     * Retrieves a bank account based on the provided user ID and account ID.
+     * This method ensures that the bank object is not null and handles cases where
+     * the account is not found.
+     * 
+     * @param in   The Scanner object used to read user input.
+     * @param bank The Bank object containing the account list.
+     * @return The BankAccount object if found, or null if the account is not found.
+     * @throws IllegalArgumentException If the bank object is null.
+     */
     static BankAccount getAccount(Scanner in, Bank bank) {
         System.out.print("Enter user ID of account: ");
         int userID = in.nextInt();
@@ -244,7 +247,7 @@ public class App {
             System.out.println("Account not found.");
             return null;
         }
-    
+
         return bankAccount;
     }
 }
